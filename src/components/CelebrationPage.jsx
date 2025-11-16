@@ -63,7 +63,7 @@ export default function CelebrationPage({ onRestart }) {
             {sparkles.map((s) => (
                 <motion.div
                     key={s.id}
-                    className="absolute bg-amber-500 rounded-full pointer-events-none"
+                    className="absolute z-1000000000 bg-amber-500 rounded-full pointer-events-none"
                     initial={{ opacity: 1, scale: 3 }}
                     animate={{ opacity: 0, scale: 0 }}
                     transition={{ duration: 0.5, ease: "easeOut" }}
