@@ -1,0 +1,552 @@
+@import "tailwindcss";
+
+/* Global reset */
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+/* Your custom animations & helpers */
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* custom utilities for spinner & subtle backdrop */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes floaty {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes jiggle {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* helper classes if you want fallback */
+.spin-slow {
+  animation: spin-slow 1s linear infinite;
+}
+.floaty {
+  animation: floaty 3s ease-in-out infinite;
+}
+.jiggle {
+  animation: jiggle 0.6s ease-in-out;
+}
+
+/* small base tooltip shadow */
+.bir-tooltip {
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.25);
+}
+
+
+@keyframes wiggle {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px) rotate(-1deg); }
+  50% { transform: translateX(2px) rotate(1deg); }
+  75% { transform: translateX(-1px) rotate(-0.5deg); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes modal-pop {
+  0% { opacity: 0; transform: translateY(12px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes tooltip-pop {
+  0% { opacity: 0; transform: translate(-50%, 4px) scale(0.96); }
+  100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+.animate-wiggle {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+.animate-modal-pop {
+  animation: modal-pop 0.18s ease-out forwards;
+}
+
+.animate-tooltip-pop {
+  animation: tooltip-pop 0.15s ease-out forwards;
+}
+
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.animate-pulse-\[slow\] {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+/* subtle noise overlay */
+.bir-noisy-overlay {
+  background-image: radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.15) 1px, transparent 0);
+  background-size: 32px 32px;
+  mix-blend-mode: soft-light;
+  opacity: 0.6;
+}
+
+/* glassy card base */
+.bir-glass-card {
+  backdrop-filter: blur(18px) saturate(130%);
+}
+
+/* orbit animations */
+@keyframes orbit-slow {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(10px, -10px, 0) rotate(8deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+
+@keyframes orbit-reverse {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(-12px, 8px, 0) rotate(-10deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+.animate-orbit-slow {
+  animation: orbit-slow 18s ease-in-out infinite;
+}
+
+.animate-orbit-reverse {
+  animation: orbit-reverse 22s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 10s ease-in-out infinite;
+}
+
+/* floating chip wobble */
+@keyframes float-chip {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.bir-floating-chip {
+  animation: float-chip 4s ease-in-out infinite;
+}
+
+/* ping-slow */
+@keyframes ping-slow {
+  0% { transform: scale(1); opacity: 1; }
+  75%, 100% { transform: scale(2.2); opacity: 0; }
+}
+
+.animate-ping-slow {
+  position: relative;
+}
+
+.animate-ping-slow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: inherit;
+  animation: ping-slow 2.5s cubic-bezier(0,0,0.2,1) infinite;
+  opacity: 0.7;
+}
+
+/* diagonal stripes in progress bar */
+.bir-progress-stripes {
+  background-size: 18px 18px;
+  background-image: linear-gradient(
+    135deg,
+    rgba(15,23,42,0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(15,23,42,0.2) 50%,
+    rgba(15,23,42,0.2) 75%,
+    transparent 75%,
+    transparent
+  );
+  animation: progress-move 1.5s linear infinite;
+}
+
+@keyframes progress-move {
+  from { background-position: 0 0; }
+  to { background-position: 18px 0; }
+}
+
+/* wiggly accent line */
+@keyframes border-wiggle {
+  0% { clip-path: polygon(0 40%, 20% 35%, 40% 45%, 60% 38%, 80% 42%, 100% 40%); }
+  50% { clip-path: polygon(0 42%, 20% 50%, 40% 38%, 60% 46%, 80% 36%, 100% 44%); }
+  100% { clip-path: polygon(0 40%, 20% 35%, 40% 45%, 60% 38%, 80% 42%, 100% 40%); }
+}
+
+.bir-border-wiggle {
+  background: linear-gradient(90deg, rgba(129,140,248,0.9), rgba(52,211,153,0.9), rgba(251,191,36,0.9));
+  border-radius: 999px;
+  animation: border-wiggle 2.6s ease-in-out infinite;
+}
+
+
+/* cute slow float for blobs */
+@keyframes floaty-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes floaty-slow-reverse {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+.animate-floaty-slow {
+  animation: floaty-slow 10s ease-in-out infinite;
+}
+.animate-floaty-slow-reverse {
+  animation: floaty-slow-reverse 11s ease-in-out infinite;
+}
+
+/* bouncy emojis */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes bounce-slow-delay {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px) rotate(-5deg); }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 3.2s ease-in-out infinite;
+}
+.animate-bounce-slow-delay {
+  animation: bounce-slow-delay 3.6s ease-in-out infinite;
+}
+
+/* card wiggle on hover */
+@keyframes card-wiggle {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25% { transform: rotate(-0.4deg) translateY(-2px); }
+  75% { transform: rotate(0.4deg) translateY(1px); }
+}
+
+.bir-card-wiggle {
+  transition: transform 0.2s ease-out;
+}
+.bir-card-wiggle:hover {
+  animation: card-wiggle 0.5s ease-in-out;
+}
+
+/* progress bar wiggly motion */
+@keyframes progress-wiggle {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+.bir-progress-wiggle {
+  animation: progress-wiggle 1.6s ease-in-out infinite;
+}
+
+/* scribbly background pattern inside right panel */
+.bir-scribble-bg {
+  background-image:
+    radial-gradient(circle at 10px 10px, rgba(148,163,184,0.35) 1px, transparent 0),
+    radial-gradient(circle at 30px 30px, rgba(148,163,184,0.25) 1px, transparent 0);
+  background-size: 40px 40px;
+}
+
+
+/* card "pop in" on mount */
+@keyframes card-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-card-pop {
+  animation: card-pop 0.35s ease-out;
+}
+
+/* tooltip pop */
+@keyframes tooltip-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -4px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+.animate-tooltip-pop {
+  animation: tooltip-pop 0.18s ease-out;
+}
+
+/* modal pop */
+@keyframes modal-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-modal-pop {
+  animation: modal-pop 0.22s ease-out;
+}
+
+/* floaty badge */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.animate-floaty {
+  animation: floaty 3s ease-in-out infinite;
+}
+
+/* shimmer line at bottom */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); opacity: 0; }
+  40% { opacity: 1; }
+  100% { transform: translateX(200%); opacity: 0; }
+}
+.animate-shimmer {
+  animation: shimmer 2.2s linear infinite;
+}
+
+/* tiny wiggle for (the long way) text */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-4deg); }
+  75% { transform: rotate(3deg); }
+}
+.animate-wiggle {
+  animation: wiggle 0.4s ease-in-out;
+}
+
+@keyframes card-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-card-pop {
+  animation: card-pop 0.35s ease-out;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); opacity: 0; }
+  40% { opacity: 1; }
+  100% { transform: translateX(200%); opacity: 0; }
+}
+.animate-shimmer {
+  animation: shimmer 2.2s linear infinite;
+}
+
+@keyframes card-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.animate-card-pop {
+  animation: card-pop 0.35s ease-out;
+}
+
+/* shimmer reused by your other components */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(150%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.4s linear infinite;
+}
+
+
+@keyframes wiggle-soft {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-1px); }
+  50% { transform: translateX(1px); }
+  75% { transform: translateX(-0.5px); }
+  100% { transform: translateX(0); }
+}
+
+.group:hover .emoji-wiggle {
+  animation: wiggle-soft 0.25s ease-in-out;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2.2s ease-in-out infinite;
+}
+
+
+/* --- slow floaty background blobs --- */
+@keyframes floaty-slow {
+  0%   { transform: translateY(0px) translateX(0px) rotate(0deg); }
+  25%  { transform: translateY(-6px) translateX(4px) rotate(1deg); }
+  50%  { transform: translateY(2px) translateX(-4px) rotate(-1deg); }
+  75%  { transform: translateY(-4px) translateX(2px) rotate(0.5deg); }
+  100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+}
+
+@keyframes floaty-slow-reverse {
+  0%   { transform: translateY(0px) translateX(0px) rotate(0deg); }
+  25%  { transform: translateY(6px) translateX(-4px) rotate(-1deg); }
+  50%  { transform: translateY(-2px) translateX(4px) rotate(1deg); }
+  75%  { transform: translateY(4px) translateX(-2px) rotate(-0.5deg); }
+  100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+}
+
+.animate-floaty-slow {
+  animation: floaty-slow 16s ease-in-out infinite;
+}
+
+.animate-floaty-slow-reverse {
+  animation: floaty-slow-reverse 18s ease-in-out infinite;
+}
+
+/* --- slow bouncy emojis --- */
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+@keyframes bounce-slow-delay {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50%      { transform: translateY(-10px) rotate(4deg); }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 3s ease-in-out infinite;
+}
+
+.animate-bounce-slow-delay {
+  animation: bounce-slow-delay 3.6s ease-in-out infinite;
+}
+
+/* --- wiggle for main card --- */
+@keyframes card-wiggle {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25%      { transform: rotate(-0.3deg) translateY(-1px); }
+  50%      { transform: rotate(0.4deg) translateY(1px); }
+  75%      { transform: rotate(-0.2deg) translateY(-1px); }
+}
+
+.bir-card-wiggle {
+  animation: card-wiggle 12s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* --- wiggly progress bar --- */
+@keyframes progress-wiggle {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+
+.bir-progress-wiggle {
+  animation: progress-wiggle 2.4s ease-in-out infinite;
+}
+
+/* --- shimmer for any gradient bars --- */
+@keyframes shimmer {
+  0%   { transform: translateX(-40%); }
+  50%  { transform: translateX(10%); }
+  100% { transform: translateX(40%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+}
+
+/* --- emoji wiggle (for any emoji you want to make extra silly) --- */
+@keyframes emoji-wiggle {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25%      { transform: rotate(-8deg) translateY(-1px); }
+  50%      { transform: rotate(6deg) translateY(1px); }
+  75%      { transform: rotate(-4deg) translateY(-1px); }
+}
+
+.emoji-wiggle {
+  display: inline-block;
+  transform-origin: center;
+  animation: emoji-wiggle 1.6s ease-in-out infinite;
+}
+
+/* --- scribble paper background on the right panel --- */
+.bir-scribble-bg {
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(248, 250, 252, 0.9) 0, transparent 55%),
+    radial-gradient(circle at 80% 0%, rgba(248, 250, 252, 0.75) 0, transparent 50%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(226, 232, 240, 0.6),
+      rgba(226, 232, 240, 0.6) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  background-size: cover, cover, auto;
+  mix-blend-mode: multiply;
+}
+
+/* --- simple pop animation for cards if you use animate-card-pop somewhere --- */
+@keyframes card-pop {
+  0%   { opacity: 0; transform: translateY(10px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-card-pop {
+  animation: card-pop 0.45s ease-out;
+}
