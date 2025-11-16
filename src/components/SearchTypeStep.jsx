@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import ChaosOverlay from "./ChaosOverlay.jsx";
+import toast from "react-hot-toast";
 
 const OPTIONS = [
     {
@@ -47,7 +48,8 @@ function SearchTypeStep({ value, onChange, onNext, onBack, setMessage }) {
 
     function handleNext() {
         if (!value) {
-            setMessage("Pick one tiny vibe first 💖");
+            toast.error("Pick one tiny vibe first 💖");
+            //setMessage("Pick one tiny vibe first 💖");
             return;
         }
         if (isLoading) {

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 function VerificationStep({ onNext, onBack, setMessage }) {
     const [selectedIds, setSelectedIds] = useState([]);
@@ -62,9 +63,11 @@ function VerificationStep({ onNext, onBack, setMessage }) {
 
     function handleNext() {
         if (selectedIds.length === 0) {
-            setMessage("Bold of you to think you’re above the process.");
+            toast.error("Bold of you to think you’re above the process.");
+            //setMessage("Bold of you to think you’re above the process.");
         } else {
-            setMessage("Interesting choice. We respect your creativity.");
+            toast.success("Interesting choice. We respect your creativity.");
+            //setMessage("Interesting choice. We respect your creativity.");
         }
         setTimeout(() => {
             setMessage("");

@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { AlertTriangle, FileText, Gauge, ClipboardList } from "lucide-react";
+import toast from "react-hot-toast";
 
 function QueryFormStep({ form, onChange, onNext, onBack, setMessage }) {
     const length = form.query.length;
@@ -14,7 +15,8 @@ function QueryFormStep({ form, onChange, onNext, onBack, setMessage }) {
 
     function handleNext() {
         if (length < 20) {
-            setMessage("Your question lacks emotional depth. Please elaborate.");
+            toast.error("Your question lacks emotional depth. Please elaborate.");
+            //setMessage("Your question lacks emotional depth. Please elaborate.");
             return;
         }
         setMessage("");

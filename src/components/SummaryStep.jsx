@@ -154,7 +154,7 @@ function SummaryStep({ form, onBack, onEditAll, onConfirm }) {
     const controls = useAnimation();
 
     useEffect(() => {
-        const timer = setTimeout(() => setIsShy(false), 10000);
+        const timer = setTimeout(() => setIsShy(false), 20000);
         return () => clearTimeout(timer);
     }, []);
 

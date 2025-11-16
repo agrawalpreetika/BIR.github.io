@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Palette, Sparkles } from "lucide-react";
 import MoodCelebration from "./MoodCelebration";
+import toast from "react-hot-toast";
 
 const MOODS = [
     { key: "mild", label: "Mildly Dead Inside", note: "Official mood of semester end." },
@@ -41,7 +42,8 @@ function MoodStep({ form, onChange, onNext, onBack, setMessage }) {
 
     function handleNext() {
         if (!form || !form.mood) {
-            setMessage("Pick a mood before we pretend this matters 🎭");
+            toast.error("Pick a mood before we pretend this matters 🎭");
+            //setMessage("Pick a mood before we pretend this matters 🎭");
             triggerCelebration("default");
             return;
         }

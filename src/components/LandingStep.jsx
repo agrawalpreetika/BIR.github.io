@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 function SimpleTooltip({ text, children }) {
     const [visible, setVisible] = useState(false);
