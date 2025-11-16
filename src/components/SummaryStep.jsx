@@ -145,18 +145,34 @@
 
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 
 function SummaryStep({ form, onBack, onEditAll, onConfirm }) {
     const [isShy, setIsShy] = useState(true);
     const [pos, setPos] = useState({ x: 0, y: 0 });
     const buttonRef = useRef(null);
+    const controls = useAnimation();
 
-    // Stop being shy after 10 seconds
     useEffect(() => {
         const timer = setTimeout(() => setIsShy(false), 10000);
         return () => clearTimeout(timer);
     }, []);
+
+    // Animate button chaos
+    useEffect(() => {
+        if (isShy) {
+            const loop = () => {
+                controls.start({
+                    rotate: Math.random() * 30 - 15, // rotate -15° to 15°
+                    scale: 1 + Math.random() * 0.3,  // scale 1x to 1.3x
+                    transition: { duration: 0.3, ease: "easeInOut" },
+                }).then(loop);
+            };
+            loop();
+        } else {
+            controls.start({ rotate: 0, scale: 1, transition: { duration: 0.3 } });
+        }
+    }, [isShy, controls]);
 
     const handleMouseMove = (e) => {
         if (!isShy || !buttonRef.current) return;
@@ -210,13 +226,6 @@ function SummaryStep({ form, onBack, onEditAll, onConfirm }) {
             className="relative h-full w-full px-3 sm:px-6 py-4 bg-slate-50"
             onMouseMove={handleMouseMove}
         >
-            {/* Background effects */}
-            <div className="pointer-events-none absolute inset-0 -z-10">
-                <div className="absolute -top-16 -left-8 h-40 w-40 rounded-[45%] bg-amber-200/50 blur-3xl animate-pulse-slow" />
-                <div className="absolute -bottom-16 right-0 h-44 w-44 rounded-[45%] bg-rose-200/50 blur-3xl animate-pulse-slow delay-2000" />
-                <div className="absolute top-1/2 left-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-sky-100/70 blur-3xl animate-pulse-slow delay-1000" />
-            </div>
-
             {/* Header */}
             <div className="space-y-2">
                 <p className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-[12px] font-medium text-amber-800 shadow-sm border border-amber-200">
@@ -233,14 +242,9 @@ function SummaryStep({ form, onBack, onEditAll, onConfirm }) {
                 </p>
             </div>
 
-            {/* Cards: Mood + Query */}
+            {/* Cards */}
             <div className="grid gap-4 sm:grid-cols-2 mt-4">
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="rounded-2xl border border-rose-200/40 bg-white p-4 shadow-md flex flex-col gap-2"
-                >
+                <div className="rounded-2xl border border-rose-200/40 bg-white p-4 shadow-md flex flex-col gap-2">
                     <p className="text-[12px] text-slate-400 uppercase tracking-wide">Your Mood</p>
                     <p className="text-[16px] font-semibold text-rose-600">
                         {hasMood ? prettyMood(form.mood) : "No mood selected"}
@@ -248,44 +252,21 @@ function SummaryStep({ form, onBack, onEditAll, onConfirm }) {
                     <p className="text-[11px] text-slate-500">
                         Impact on actual results: <span className="font-semibold">0%</span>. Impact on drama: <span className="font-semibold">300%</span>.
                     </p>
-                </motion.div>
+                </div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="rounded-2xl border border-indigo-200/40 bg-white p-4 shadow-md flex flex-col gap-2"
-                >
+                <div className="rounded-2xl border border-indigo-200/40 bg-white p-4 shadow-md flex flex-col gap-2">
                     <p className="text-[12px] text-slate-400 uppercase tracking-wide">Search Context</p>
                     <p className="font-medium text-amber-500">{prettySearchType(form.searchType)}</p>
                     <p className="mt-2 text-[13px] border-l-2 border-amber-300 pl-2 text-slate-700 italic">
                         “{hasQuery ? form.query : "No query provided"}”
                     </p>
-                </motion.div>
-            </div>
-
-            {/* Urgency + Ignore chance */}
-            <div className="flex flex-wrap gap-3 mt-2">
-                <span className="rounded-full border border-slate-300 bg-white/80 px-3 py-1 text-[12px] font-medium text-amber-600">
-                    Urgency: <span className="font-semibold">{form.urgency}/100</span>
-                </span>
-                <span className="rounded-full border border-slate-300 bg-white/80 px-3 py-1 text-[12px] font-medium text-rose-500">
-                    Chance you ignore results: <span className="font-semibold">{form.ignoreChance}</span>
-                </span>
+                </div>
             </div>
 
             {/* Fun note */}
-            <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="rounded-xl border border-slate-200/30 bg-white/80 p-3 shadow-inner text-[12px] text-slate-700 mt-3"
-            >
-                <p>
-                    Do you solemnly swear this <span className="text-emerald-500 font-semibold">represents your truth</span>, or at least your
-                    dramatic interpretation? 😎
-                </p>
-            </motion.div>
+            <div className="rounded-xl border border-slate-200/30 bg-white/80 p-3 shadow-inner text-[12px] text-slate-700 mt-3">
+                Do you solemnly swear this <span className="text-emerald-500 font-semibold">represents your truth</span>, or at least your dramatic interpretation? 😎
+            </div>
 
             {/* Buttons */}
             <div className="flex flex-wrap items-center gap-3 mt-6 justify-center relative">
@@ -302,10 +283,10 @@ function SummaryStep({ form, onBack, onEditAll, onConfirm }) {
                     ← Back
                 </button>
 
-                {/* Shy button */}
                 <motion.button
                     ref={buttonRef}
                     onClick={onConfirm}
+                    animate={controls}
                     style={{
                         x: pos.x,
                         y: pos.y,
@@ -316,9 +297,6 @@ function SummaryStep({ form, onBack, onEditAll, onConfirm }) {
                     ✅ I Confirm This Chaos
                 </motion.button>
             </div>
-            <span className="text-[10px] text-slate-500 block mt-2 text-center">
-                Note: Confirmation does not guarantee emotional stability.
-            </span>
         </motion.div>
     );
 }
